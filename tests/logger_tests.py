@@ -1,5 +1,4 @@
 """Tests the logger"""
-import os
 import unittest
 import psycopg2
 from pypika import Query, Table
