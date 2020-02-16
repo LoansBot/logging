@@ -48,84 +48,84 @@ class LoggerTests(unittest.TestCase):
         self.cursor.execute(
             Query.from_(self.log_apps).select(analytics.Count(Star())).get_sql()
         )
-        cnt = self.cursor.fetchone()
+        cnt = self.cursor.fetchone()[0]
         self.connection.commit()
-        self.assertEquals(cnt, 0)
+        self.assertEqual(cnt, 0)
         self.logger.prepare()
         self.cursor.execute(
             Query.from_(self.log_apps).select(analytics.Count(Star())).get_sql()
         )
-        cnt = self.cursor.fetchone()
+        cnt = self.cursor.fetchone()[0]
         self.connection.commit()
-        self.assertEquals(cnt, 1)
+        self.assertEqual(cnt, 1)
         self.cursor.execute(
             Query.from_(self.log_apps).select(self.log_apps.id, self.log_apps.name).get_sql()
         )
         id_, nm = self.cursor.fetchone()
         self.connection.commit()
-        self.assertEquals(nm, self.logger.appname)
-        self.assertEquals(id_, self.logger.app_id)
+        self.assertEqual(nm, self.logger.appname)
+        self.assertEqual(id_, self.logger.app_id)
 
     def test_creates_iden_id(self):
         self.cursor.execute(
             Query.from_(self.log_idens).select(analytics.Count(Star())).get_sql()
         )
-        cnt = self.cursor.fetchone()
+        cnt = self.cursor.fetchone()[0]
         self.connection.commit()
-        self.assertEquals(cnt, 0)
+        self.assertEqual(cnt, 0)
         self.logger.prepare()
         self.cursor.execute(
             Query.from_(self.log_idens).select(analytics.Count(Star())).get_sql()
         )
-        cnt = self.cursor.fetchone()
+        cnt = self.cursor.fetchone()[0]
         self.connection.commit()
-        self.assertEquals(cnt, 1)
+        self.assertEqual(cnt, 1)
         self.cursor.execute(
             Query.from_(self.log_idens).select(self.log_idens.id, self.log_idens.identifier).get_sql()
         )
         id_, iden = self.cursor.fetchone()
         self.connection.commit()
-        self.assertEquals(iden, self.logger.identifier)
-        self.assertEquals(id_, self.logger.iden_id)
+        self.assertEqual(iden, self.logger.identifier)
+        self.assertEqual(id_, self.logger.iden_id)
 
     def test_reuses_app_id(self):
         self.logger.prepare()
         new_lgr = Logger(self.logger.appname, 'iden2', self.connection)
-        self.assertEquals(self.logger.app_id, new_lgr.app_id)
+        self.assertEqual(self.logger.app_id, new_lgr.app_id)
 
     def test_reuses_iden_id(self):
         self.logger.prepare()
         new_lgr = Logger(self.logger.appname, 'iden2', self.connection)
-        self.assertEquals(self.logger.iden_id, new_lgr.iden_id)
+        self.assertEqual(self.logger.iden_id, new_lgr.iden_id)
 
     def test_print_created_event(self):
         self.logger.prepare()
 
         self.cursor.execute(Query.from_(self.log_events).select(analytics.Count(Star())).get_sql())
-        cnt = self.cursor.fetchone()
+        cnt = self.cursor.fetchone()[0]d
         self.connection.commit()
-        self.assertEquals(cnt, 0)
+        self.assertEqual(cnt, 0)
         self.logger.print(Level.TRACE, 'msg')
         self.connection.commit()
         self.cursor.execute(Query.from_(self.log_events).select(analytics.Count(Star())).get_sql())
-        cnt = self.cursor.fetchone()
+        cnt = self.cursor.fetchone()[0]
         self.connection.commit()
-        self.assertEquals(cnt, 1)
+        self.assertEqual(cnt, 1)
         self.cursor.execute(Query.from_(self.log_events).select('level', 'application_id', 'identifier_id', 'message').get_sql())
         lvl, appid, idenid, msg = self.cursor.fetchone()
         self.connection.commit()
-        self.assertEquals(lvl, int(Level.TRACE))
-        self.assertEquals(appid, self.logger.app_id)
-        self.assertEquals(idenid, self.logger.iden_id)
-        self.assertEquals(msg, 'msg')
+        self.assertEqual(lvl, int(Level.TRACE))
+        self.assertEqual(appid, self.logger.app_id)
+        self.assertEqual(idenid, self.logger.iden_id)
+        self.assertEqual(msg, 'msg')
 
     def test_print_formats_messages(self):
         self.logger.prepare()
         self.logger.print(Level.TRACE, 'my {} message', 'formatted')
         self.cursor.execute(Query.from_(self.log_events).select('message').limit(1).get_sql())
-        msg = self.cursor.fetchone()
+        msg = self.cursor.fetchone()[0]
         self.connection.commit()
-        self.assertEquals(msg, 'my formatted message')
+        self.assertEqual(msg, 'my formatted message')
 
     def test_exception_event(self):
         self.logger.prepare()
@@ -137,16 +137,16 @@ class LoggerTests(unittest.TestCase):
         self.cursor.execute(Query.from_(self.log_events).select('level', 'message').limit(1).get_sql())
         lvl, msg = self.cursor.fetchone()
         self.connection.commit()
-        self.assertEquals(lvl, int(Level.WARN))
+        self.assertEqual(lvl, int(Level.WARN))
         self.assertIn('ZeroDivisionError', msg)
 
     def test_with_iden(self):
         self.logger.prepare()
         lgr = self.logger.with_iden('iden2')
-        self.assertEquals(lgr.app_id, self.logger.app_id)
-        self.assertEquals(lgr.iden_id, self.logger.iden_id)
-        self.assertEquals(lgr.identifier, 'iden2')
-        self.assertEquals(lgr.appname, self.logger.appname)
+        self.assertEqual(lgr.app_id, self.logger.app_id)
+        self.assertEqual(lgr.iden_id, self.logger.iden_id)
+        self.assertEqual(lgr.identifier, 'iden2')
+        self.assertEqual(lgr.appname, self.logger.appname)
 
 
 if __name__ == '__main__':
