@@ -91,11 +91,13 @@ class LoggerTests(unittest.TestCase):
     def test_reuses_app_id(self):
         self.logger.prepare()
         new_lgr = Logger(self.logger.appname, 'iden2', self.connection)
+        new_lgr.prepare()
         self.assertEqual(self.logger.app_id, new_lgr.app_id)
 
     def test_reuses_iden_id(self):
         self.logger.prepare()
         new_lgr = Logger(self.logger.appname, 'iden2', self.connection)
+        new_lgr.prepare()
         self.assertEqual(self.logger.iden_id, new_lgr.iden_id)
 
     def test_print_created_event(self):
