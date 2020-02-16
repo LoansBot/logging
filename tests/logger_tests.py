@@ -46,7 +46,7 @@ class LoggerTests(unittest.TestCase):
 
     def test_creates_app_id(self):
         self.cursor.execute(
-            Query.from_(self.log_apps).select(self.).get_sql()
+            Query.from_(self.log_apps).select(analytics.Count(Star)).get_sql()
         )
         cnt = self.cursor.fetchone()[0]
         self.connection.commit()
