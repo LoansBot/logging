@@ -27,7 +27,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         repository: LoansBot/database
-        working-directory: ./database
+        path: ./database
     - name: Setup Python ${{ matrix.python_version }}
       uses: actions/setup-python@v1
       with:
