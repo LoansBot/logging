@@ -77,7 +77,7 @@ class Logger:
                 'SELECT id FROM log_applications WHERE name=%s',
                 (self.appname,)
             )
-        self.app_id = self.cursor.fetchone()[0]
+        self.app_id = self.cursor.fetchone()
         self.connection.commit()
 
         try:
@@ -91,7 +91,7 @@ class Logger:
                 'SELECT id FROM log_applications WHERE identifier=%s',
                 (self.identifier,)
             )
-        self.iden_id = self.cursor.fetchone()[0]
+        self.iden_id = self.cursor.fetchone()
         self.connection.commit()
 
     def print(self, level, message, *args):
@@ -151,7 +151,7 @@ class Logger:
 
     def _raw_insert(self, level, message):
         self.cursor.execute(
-            'INSERT INTO log_events (level, application_id, identifier_id, message) VALUES (?, ?, ?, ?)',
+            'INSERT INTO log_events (level, application_id, identifier_id, message) VALUES (%s, %s, %s, %s)',
             (int(level), self.app_id, self.iden_id, message)
         )
 
