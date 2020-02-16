@@ -110,7 +110,7 @@ class Logger:
             return
 
         if args:
-            message = message.format(args)
+            message = message.format(*args)
 
         self._raw_insert(level, message)
 
@@ -128,7 +128,7 @@ class Logger:
 
         message = []
         if args:
-            message.append(args[0].format(args[1:])).append('\n')
+            message.append(args[0].format(*args[1:])).append('\n')
 
         message.append(traceback.format_exc())
 
