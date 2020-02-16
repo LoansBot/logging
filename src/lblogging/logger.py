@@ -150,7 +150,7 @@ class Logger:
         return cpy
 
     def _raw_insert(self, level, message):
-        self._cursor.execute(
+        self.cursor.execute(
             'INSERT INTO log_events (level, application_id, identifier_id, message) VALUES (?, ?, ?, ?)',
             (int(level), self.app_id, self.iden_id, message)
         )

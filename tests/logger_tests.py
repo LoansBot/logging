@@ -48,20 +48,20 @@ class LoggerTests(unittest.TestCase):
         self.cursor.execute(
             Query.from_(self.log_apps).select(analytics.Count(Star())).get_sql()
         )
-        cnt = self.cursor.fetchone()[0]
+        cnt = self.cursor.fetchone()
         self.connection.commit()
         self.assertEquals(cnt, 0)
         self.logger.prepare()
         self.cursor.execute(
             Query.from_(self.log_apps).select(analytics.Count(Star())).get_sql()
         )
-        cnt = self.cursor.fetchone()[0]
+        cnt = self.cursor.fetchone()
         self.connection.commit()
         self.assertEquals(cnt, 1)
         self.cursor.execute(
             Query.from_(self.log_apps).select(self.log_apps.id, self.log_apps.name).get_sql()
         )
-        id_, nm = self.cursor.fetchone()[0]
+        id_, nm = self.cursor.fetchone()
         self.connection.commit()
         self.assertEquals(nm, self.logger.appname)
         self.assertEquals(id_, self.logger.app_id)
@@ -70,20 +70,20 @@ class LoggerTests(unittest.TestCase):
         self.cursor.execute(
             Query.from_(self.log_idens).select(analytics.Count(Star())).get_sql()
         )
-        cnt = self.cursor.fetchone()[0]
+        cnt = self.cursor.fetchone()
         self.connection.commit()
         self.assertEquals(cnt, 0)
         self.logger.prepare()
         self.cursor.execute(
             Query.from_(self.log_idens).select(analytics.Count(Star())).get_sql()
         )
-        cnt = self.cursor.fetchone()[0]
+        cnt = self.cursor.fetchone()
         self.connection.commit()
         self.assertEquals(cnt, 1)
         self.cursor.execute(
             Query.from_(self.log_idens).select(self.log_idens.id, self.log_idens.identifier).get_sql()
         )
-        id_, iden = self.cursor.fetchone()[0]
+        id_, iden = self.cursor.fetchone()
         self.connection.commit()
         self.assertEquals(iden, self.logger.identifier)
         self.assertEquals(id_, self.logger.iden_id)
@@ -102,17 +102,17 @@ class LoggerTests(unittest.TestCase):
         self.logger.prepare()
 
         self.cursor.execute(Query.from_(self.log_events).select(analytics.Count(Star())).get_sql())
-        cnt = self.cursor.fetchone()[0]
+        cnt = self.cursor.fetchone()
         self.connection.commit()
         self.assertEquals(cnt, 0)
         self.logger.print(Level.TRACE, 'msg')
         self.connection.commit()
         self.cursor.execute(Query.from_(self.log_events).select(analytics.Count(Star())).get_sql())
-        cnt = self.cursor.fetchone()[0]
+        cnt = self.cursor.fetchone()
         self.connection.commit()
         self.assertEquals(cnt, 1)
         self.cursor.execute(Query.from_(self.log_events).select('level', 'application_id', 'identifier_id', 'message').get_sql())
-        lvl, appid, idenid, msg = self.cursor.fetchone()[0]
+        lvl, appid, idenid, msg = self.cursor.fetchone()
         self.connection.commit()
         self.assertEquals(lvl, int(Level.TRACE))
         self.assertEquals(appid, self.logger.app_id)
@@ -123,7 +123,7 @@ class LoggerTests(unittest.TestCase):
         self.logger.prepare()
         self.logger.print(Level.TRACE, 'my {} message', 'formatted')
         self.cursor.execute(Query.from_(self.log_events).select('message').limit(1).get_sql())
-        msg = self.cursor.fetchone()[0]
+        msg = self.cursor.fetchone()
         self.connection.commit()
         self.assertEquals(msg, 'my formatted message')
 
@@ -135,7 +135,7 @@ class LoggerTests(unittest.TestCase):
             self.logger.exception(Level.WARN)
 
         self.cursor.execute(Query.from_(self.log_events).select('level', 'message').limit(1).get_sql())
-        lvl, msg = self.cursor.fetchone()[0]
+        lvl, msg = self.cursor.fetchone()
         self.connection.commit()
         self.assertEquals(lvl, int(Level.WARN))
         self.assertIn('ZeroDivisionError', msg)
