@@ -12,15 +12,17 @@ from lblogging import Logger, Level
 
 
 class LoggerTests(unittest.TestCase):
-    def setUpClass(self):
-        self.connection = psycopg2.connect('')
-        self.log_events = Table('log_events')
-        self.log_apps = Table('log_applications')
-        self.log_idens = Table('log_identifiers')
+    @classmethod
+    def setUpClass(cls):
+        cls.connection = psycopg2.connect('')
+        cls.log_events = Table('log_events')
+        cls.log_apps = Table('log_applications')
+        cls.log_idens = Table('log_identifiers')
 
-    def tearDownClass(self):
-        self.connection.close()
-        self.connection = None
+    @classmethod
+    def tearDownClass(cls):
+        cls.connection.close()
+        cls.connection = None
 
     def setUp(self):
         self.logger = Logger('lblogging', 'logger_tests.py', self.connection)
