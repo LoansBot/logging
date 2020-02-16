@@ -82,13 +82,13 @@ class Logger:
 
         try:
             self.cursor.execute(
-                'INSERT INTO log_identifiers (identifier) VALUES (%s) RETURNING id',
+                'INSERT INTO log_identifiers ("identifier") VALUES (%s) RETURNING id',
                 (self.identifier,)
             )
         except UniqueViolation:
             self.connection.rollback()
             self.cursor.execute(
-                'SELECT id FROM log_identifiers WHERE identifier=%s',
+                'SELECT id FROM log_identifiers WHERE "identifier"=%s',
                 (self.identifier,)
             )
         self.iden_id = self.cursor.fetchone()[0]
