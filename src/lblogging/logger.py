@@ -77,7 +77,7 @@ class Logger:
                 'SELECT id FROM log_applications WHERE name=%s',
                 (self.appname,)
             )
-        self.app_id = self.cursor.fetchone()
+        self.app_id = self.cursor.fetchone()[0]
         self.connection.commit()
 
         try:
@@ -91,7 +91,7 @@ class Logger:
                 'SELECT id FROM log_applications WHERE identifier=%s',
                 (self.identifier,)
             )
-        self.iden_id = self.cursor.fetchone()
+        self.iden_id = self.cursor.fetchone()[0]
         self.connection.commit()
 
     def print(self, level, message, *args):
