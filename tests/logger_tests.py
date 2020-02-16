@@ -96,7 +96,7 @@ class LoggerTests(unittest.TestCase):
 
     def test_reuses_iden_id(self):
         self.logger.prepare()
-        new_lgr = Logger(self.logger.appname, 'iden2', self.connection)
+        new_lgr = Logger(self.logger.appname, self.logger.identifier, self.connection)
         new_lgr.prepare()
         self.assertEqual(self.logger.iden_id, new_lgr.iden_id)
 
