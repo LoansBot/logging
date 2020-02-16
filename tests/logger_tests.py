@@ -46,14 +46,14 @@ class LoggerTests(unittest.TestCase):
 
     def test_creates_app_id(self):
         self.cursor.execute(
-            Query.from_(self.log_apps).select(analytics.Count(Star)).get_sql()
+            Query.from_(self.log_apps).select(analytics.Count(Star())).get_sql()
         )
         cnt = self.cursor.fetchone()[0]
         self.connection.commit()
         self.assertEquals(cnt, 0)
         self.logger.prepare()
         self.cursor.execute(
-            Query.from_(self.log_apps).select(analytics.Count(Star)).get_sql()
+            Query.from_(self.log_apps).select(analytics.Count(Star())).get_sql()
         )
         cnt = self.cursor.fetchone()[0]
         self.connection.commit()
@@ -68,14 +68,14 @@ class LoggerTests(unittest.TestCase):
 
     def test_creates_iden_id(self):
         self.cursor.execute(
-            Query.from_(self.log_idens).select(analytics.Count(Star)).get_sql()
+            Query.from_(self.log_idens).select(analytics.Count(Star())).get_sql()
         )
         cnt = self.cursor.fetchone()[0]
         self.connection.commit()
         self.assertEquals(cnt, 0)
         self.logger.prepare()
         self.cursor.execute(
-            Query.from_(self.log_idens).select(analytics.Count(Star)).get_sql()
+            Query.from_(self.log_idens).select(analytics.Count(Star())).get_sql()
         )
         cnt = self.cursor.fetchone()[0]
         self.connection.commit()
@@ -101,13 +101,13 @@ class LoggerTests(unittest.TestCase):
     def test_print_created_event(self):
         self.logger.prepare()
 
-        self.cursor.execute(Query.from_(self.log_events).select(analytics.Count(Star)).get_sql())
+        self.cursor.execute(Query.from_(self.log_events).select(analytics.Count(Star())).get_sql())
         cnt = self.cursor.fetchone()[0]
         self.connection.commit()
         self.assertEquals(cnt, 0)
         self.logger.print(Level.TRACE, 'msg')
         self.connection.commit()
-        self.cursor.execute(Query.from_(self.log_events).select(analytics.Count(Star)).get_sql())
+        self.cursor.execute(Query.from_(self.log_events).select(analytics.Count(Star())).get_sql())
         cnt = self.cursor.fetchone()[0]
         self.connection.commit()
         self.assertEquals(cnt, 1)
