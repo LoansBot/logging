@@ -27,7 +27,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         repository: LoansBot/database
-        working-directory: database
+        working-directory: ./database
     - name: Setup Python ${{ matrix.python_version }}
       uses: actions/setup-python@v1
       with:
@@ -43,7 +43,7 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82,F841,E302,E303,F401,E261 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Prepare database
-      working-directory: database/src
+      working-directory: ./database/src
       run: |
         cp ../settings.ini.sample ./settings.ini
         python run_migrations.py
