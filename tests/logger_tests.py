@@ -102,7 +102,7 @@ class LoggerTests(unittest.TestCase):
         self.logger.prepare()
 
         self.cursor.execute(Query.from_(self.log_events).select(analytics.Count(Star())).get_sql())
-        cnt = self.cursor.fetchone()[0]d
+        cnt = self.cursor.fetchone()[0]
         self.connection.commit()
         self.assertEqual(cnt, 0)
         self.logger.print(Level.TRACE, 'msg')
