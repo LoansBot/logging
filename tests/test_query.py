@@ -14,9 +14,6 @@ class LoggerTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.connection = psycopg2.connect('')
-        cls.log_events = Table('log_events')
-        cls.log_apps = Table('log_applications')
-        cls.log_idens = Table('log_identifiers')
 
     @classmethod
     def tearDownClass(cls):
