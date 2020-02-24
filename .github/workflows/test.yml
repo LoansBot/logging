@@ -3,7 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  test_migrations:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -34,6 +34,7 @@ jobs:
         python-version: ${{ matrix.python_version }}
     - name: Install python dependencies
       run: |
+        sudo apt update
         sudo apt install build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev postgresql-common libpq-dev postgresql-client
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
