@@ -50,7 +50,7 @@ jobs:
       env:
         DATABASE_HOST: localhost
         DATABASE_PORT: ${{ job.services.postgres.ports['5432'] }}
-    - name: Run logger tests
+    - name: Run tests
       working-directory: ./tests
       env:
         PGHOST: localhost
@@ -58,4 +58,4 @@ jobs:
         PGPASSWORD: dev
         PGPORT: ${{ job.services.postgres.ports['5432'] }}
       run: |
-        python logger_tests.py
+        python -m unittest discover -s .

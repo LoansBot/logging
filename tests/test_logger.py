@@ -26,7 +26,7 @@ class LoggerTests(unittest.TestCase):
         cls.connection = None
 
     def setUp(self):
-        self.logger = Logger('lblogging', 'logger_tests.py', self.connection)
+        self.logger = Logger('lblogging', 'test_logger.py', self.connection)
         self.cursor = self.connection.cursor()
 
     def tearDown(self):
