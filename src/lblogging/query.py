@@ -18,7 +18,7 @@ def print_all_logs(conn, cursor):
           'log_identifiers.identifier, '
           'log_events.level, '
           'log_events.message, '
-          'log_events.created_at'
+          'log_events.created_at '
         'FROM log_events '
         'INNER JOIN log_applications '
           'ON log_applications.id = log_events.application_id '
