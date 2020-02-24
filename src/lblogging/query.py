@@ -28,7 +28,7 @@ def print_all_logs(conn, cursor):
     )
     cursor.execute(query)
     while True:
-        row = cursor.fetch_one()
+        row = cursor.fetchone()
         if row is None:
             break
         appname, iden, level_int, message, cat = row
