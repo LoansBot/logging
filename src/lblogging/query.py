@@ -14,16 +14,16 @@ def print_all_logs(conn, cursor):
     """
     query = (
         'SELECT '
-          'log_applications.name, '
+          'log_applications.name, '  # noqa: E131
           'log_identifiers.identifier, '
           'log_events.level, '
           'log_events.message, '
           'log_events.created_at '
         'FROM log_events '
         'INNER JOIN log_applications '
-          'ON log_applications.id = log_events.application_id '
+          'ON log_applications.id = log_events.application_id '  # noqa: E131
         'INNER JOIN log_identifiers '
-          'ON log_identifiers.id = log_events.identifier_id '
+          'ON log_identifiers.id = log_events.identifier_id '  # noqa: E131
         'ORDER BY log_events.created_at DESC'
     )
     cursor.execute(query)
