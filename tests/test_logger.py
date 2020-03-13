@@ -142,6 +142,20 @@ class LoggerTests(unittest.TestCase):
         self.assertEqual(lvl, int(Level.WARN))
         self.assertIn('ZeroDivisionError', msg)
 
+    def test_exception_event_with_args(self):
+        self.logger.prepare()
+        try:
+            1/0
+        except ZeroDivisionError:
+            self.logger.exception(Level.WARN, 'msg {}', 'foo')
+
+        self.cursor.execute(Query.from_(self.log_events).select('level', 'message').limit(1).get_sql())
+        lvl, msg = self.cursor.fetchone()
+        self.connection.commit()
+        self.assertEqual(lvl, int(Level.WARN))
+        self.assertIn('ZeroDivisionError', msg)
+        self.assertIn('msg foo', msg)
+
     def test_with_iden(self):
         self.logger.prepare()
         lgr = self.logger.with_iden('iden2')
