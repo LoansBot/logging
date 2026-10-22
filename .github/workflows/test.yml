@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         python_version: [3.7, 3.8]
@@ -23,13 +23,13 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
       with:
         repository: LoansBot/database
         path: ./database
     - name: Setup Python ${{ matrix.python_version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python_version }}
     - name: Install python dependencies
